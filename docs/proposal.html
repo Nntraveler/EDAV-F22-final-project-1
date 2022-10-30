@@ -114,22 +114,25 @@
 we schedule the tour routes, we will try to avoid those dangerous areas.
 In this case, we need to know more information about the crimes in that
 city, such as crime types, occurring time, or the area with high
-frequency, etc. And the most effective way to acquire these pieces of
-information is by investigating some datasets. Hence, for this project,
-we found a dataset from Los Angeles’ police department, which includes
-all kinds of information about local crimes, like crime type, crime area
-or victim info, etc. And by doing data visualization on the dataset will
-allow us to gain a comprehensive understanding of the dataset in a short
-amount of time. The main topic that we want to discuss is how should we
-avoid crimes when we travel to Los Angeles. For example, we may avoid
-certain dangerous areas or schedule our main events during the daytime.
-By closely analyzing the dataset, we will be able to discover more
-valuable information or measures to prevent these dangers.</p>
+frequency, etc.</p>
+<p>And the most effective way to acquire these pieces of information is by
+investigating some datasets. Hence, for this project, we found a dataset
+from Los Angeles’ police department, which includes all kinds of
+information about local crimes, like crime type, crime area or victim
+info, etc. And by doing data visualization on the dataset will allow us
+to gain a comprehensive understanding of the dataset in a short amount
+of time. The main topic that we want to discuss is how should we avoid
+crimes when we travel to Los Angeles. For example, we may avoid certain
+dangerous areas or schedule our main events during the daytime. By
+closely analyzing the dataset, we will be able to discover more valuable
+information or measures to prevent these dangers.</p>
 </div>
 <div id="data-availability" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data availability<a href="proposal.html#data-availability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Data source:</strong></p>
 <p>1. Crime Data from 2020 to Present</p>
+<p>[Los Angeles Open
+Data](<a href="https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8" class="uri">https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8</a><a href="https://clio.columbia.edu/">)</a>)</p>
 <p>The data is collected in the city of Los Angeles, reflecting incidents
 of crime since 2020. It is transcribed from original crime reports that
 are typed on paper</p>
@@ -153,6 +156,10 @@ of missing values</p></li>
 categorical columns, which require some string transformation. And
 some other columns carry geographical information, so we should
 merge these columns to extract an exact location.</p></li>
+<li><p>For some text columns, the data inside are mostly abbreviations or
+codes, which cannot be directly used. In this case, we need to do
+some research and replace these codes with suitable formats that can
+be understood easily.</p></li>
 </ul>
 <p>(If we had any questions about the dataset, there is a button in the
 original webpage, which allows us to contact the dataset owner)</p>
