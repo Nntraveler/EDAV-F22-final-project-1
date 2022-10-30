@@ -1,5 +1,5 @@
 --- 
-title: "EDAV-F22-final-project-1"
+title: "EDAV-F22-final-project"
 author: "FeiFan Li, Wenqi Sun, Yusong Zhao"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
