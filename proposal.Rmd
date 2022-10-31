@@ -45,7 +45,7 @@ are typed on paper
 
 **Data format:**
 
--    csv file
+-    CSV file
 
 -   591K rows \* 28 columns
 
