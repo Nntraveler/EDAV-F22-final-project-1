@@ -17,7 +17,7 @@ frequency, etc.
 And the most effective way to acquire these pieces of information is by
 investigating some datasets. Hence, for this project, we found a dataset
 from Los Angeles' police department, which includes all kinds of
-information about local crimes, like crime type, crime area or victim
+information about local crimes, like crime types, crime areas or victim
 info, etc. And by doing data visualization on the dataset will allow us
 to gain a comprehensive understanding of the dataset in a short amount
 of time. The main topic that we want to discuss is how should we avoid
@@ -41,11 +41,11 @@ are typed on paper
 
 -   Provided by Los Angeles Police Department
 
--    Owner: LAPD OpenData
+-   Owner: LAPD OpenData
 
 **Data format:**
 
--    CSV file
+-   CSV file
 
 -   591K rows \* 28 columns
 
