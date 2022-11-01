@@ -8,23 +8,11 @@ editor_options:
 
 ## Research topic
 
-When we travel to a city, one part of our main concern is safety. When
-we schedule the tour routes, we will try to avoid those dangerous areas.
-In this case, we need to know more information about the crimes in that
-city, such as crime types, occurring time, or the area with high
-frequency, etc.
 
-And the most effective way to acquire these pieces of information is by
-investigating some datasets. Hence, for this project, we found a dataset
-from Los Angeles' police department, which includes all kinds of
-information about local crimes, like crime types, crime areas or victim
-info, etc. And by doing data visualization on the dataset will allow us
-to gain a comprehensive understanding of the dataset in a short amount
-of time. The main topic that we want to discuss is how should we avoid
-crimes when we travel to Los Angeles. For example, we may avoid certain
-dangerous areas or schedule our main events during the daytime. By
-closely analyzing the dataset, we will be able to discover more valuable
-information or measures to prevent these dangers.
+When we travel to a city, one part of our main concern is safety. When we schedule the tour routes, we will try to avoid those dangerous areas. In this case, we need to know more information about the crimes in that city, such as crime types, occurring time, or the area with high frequency, etc. And the most effective way to acquire these pieces of information is by investigating some datasets. Hence, for this project, we found a dataset from Los Angeles’ police department, which includes all kinds of information about local crimes, like crime type, crime area or victim info, etc. And by doing data visualization on the dataset will allow us to gain a comprehensive understanding of the dataset in a short amount of time. The main topic that we want to discuss is how we should avoid crimes when we travel to Los Angeles. 
+
+For example, we may avoid certain dangerous areas or schedule our main events during the daytime. By closely analyzing the dataset, we may discover some patterns which are relevant to crimes. Meanwhile, we will be able to discover more valuable information or measures to avoid those crimes and prevent dangers, which helps us to travel safely.
+
 
 ## Data availability
 
@@ -87,3 +75,7 @@ original webpage, which allows us to contact the dataset owner)
 3.  We plan to import the csv data into MySQL database deployed on the
     server and visit these data through `odbc` package, so that it might
     be easier to collaborate on data.
+    
+**Contact data owner:**
+	
+On the dataset webpage(Link is attached on the top of the file), click the “Contact Dataset Owner” button to ask a question, make a comment, or point out something about the data.
