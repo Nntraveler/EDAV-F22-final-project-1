@@ -23,7 +23,7 @@
 <meta name="author" content="FeiFan Li, Wenqi Sun, Yusong Zhao" />
 
 
-<meta name="date" content="2022-11-06" />
+<meta name="date" content="2022-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -110,6 +110,39 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Crime Data from 2020 to Present</p>
+<p>[Los Angeles Open Data](<a href="https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8" class="uri">https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8</a><a href="%5Bhttps://clio.columbia.edu/">)</a>)](<a href="https://clio.columbia.edu/" class="uri">https://clio.columbia.edu/</a>)))</p>
+<p>The data was collected by the Los Angeles Police Department, LAPD. It reflects incidents of crime since 2020. The data inside is transcribed from the official crime report, and is typed from the paper, which means that there might be typos and inaccuracies.</p>
+<p>- Collected by Los Angeles Police Department, LAPD</p>
+<p>- Owner: LAPD OpenData</p>
+<p>- Date created: February 10, 2020</p>
+<p>- Last Updated: November 2, 2022</p>
+<p><strong>Data Format:</strong></p>
+<p>- CSV file</p>
+<p>- 595K rows and 28 columns</p>
+<p>- Three types of data: Plain text, Number, date</p>
+<p>- Update Frequency: weekly</p>
+<p>- Columns: Date occurring, area, criminal code, victim age, victim sex, weapon description, status, location, etc.</p>
+<p>- Each row is a crime incident</p>
+<p><strong>Issues:</strong></p>
+<ul>
+<li><p>Some columns like crime codes are extremely sparse, containing lots of missing values</p></li>
+<li><p>We need to spend tons of time on data cleaning. There are many categorical columns, which require some string transformation. And some other columns carry geographical information, so we should merge these columns to extract an exact location.</p></li>
+<li><p>For some text columns, the data inside are mostly abbreviations or codes, which cannot be directly used. In this case, we need to do some research and replace these codes with suitable formats that can be understood easily.</p></li>
+<li><p>Since there are about 600k datapoints, it is possible that two datapoints will overlap with each other. In this case, we may try convert it into log scale, or sample certain amount of datapoints, instead of using all of them.</p></li>
+</ul>
+<p><strong>Plan to import:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Download the csv file from the website</p></li>
+<li><p>Preprocess data for convenience :</p>
+<ul>
+<li><p>Replace columns containing spaces such as “DATE OCC” to “DATA_OCC”</p></li>
+<li><p>Remove character “-”</p></li>
+</ul></li>
+<li><p>We plan to import the csv data into MySQL database deployed on the server and visit these data through <code>odbc</code> package, so that it might be easier to collaborate on data.</p></li>
+</ol>
+<p><strong>Contact data owner:</strong></p>
+<p>On the dataset webpage(Link is attached on the top of the file), click the “Contact Dataset Owner” button to ask a question, make a comment, or point out something about the data.</p>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
