@@ -59,3 +59,38 @@ On the dataset webpage(Link is attached on the top of the file), click the "Cont
 ## Cleaning / transformation
 
 ## Missing value analysis
+
+In our dataset, there actually contain lots of missing values, and they mostly concentrate on a few specific columns. Hence, in this section, we will visualize these missing values.
+
+```{r}
+# import data
+df <- read.csv("Crime_Data_from_2020_to_Present_column_modified.csv")
+```
+
+```{r}
+#number of missings by graph
+library(naniar)
+gg_miss_upset(df,nsets = n_var_miss(df))
+```
+
+From the graph above, we can observe the missing patterns in this dataset. To be specific, there are about 10 kinds of missing patterns in total. The missing values are mostly concentrated on four columns: Weapon_used,Crm_cd_2,Crm_cd_3, and Crm_cd_4. The most common missing pattern is that these four columns are all missed. The occurrences of this pattern exceed more than half of the dataset. The second most common missing pattern is that the crime codes 2,3,4 are all missing, which consists 1/3 of the dataset. Furthermore, by taking a closer look at the missing patterns, we can see that the "crm_cd_4" nearly appears in all the patterns, which means that it may have the highest number of missing values.
+
+```{r}
+library(gridExtra)
+
+g1<-gg_miss_span(df, Weapon_Used_Cd, span_every = 30000)+
+  ggtitle("Propo of missing in Weapon")
+
+g2<-gg_miss_span(df, Crm_Cd_2, span_every = 30000)+
+  ggtitle("Prop of missing in Crm_2")
+
+g3<-gg_miss_span(df, Crm_Cd_3, span_every = 30000)+
+  ggtitle("Prop of missing in Crm_3")
+
+g4<-gg_miss_span(df, Crm_Cd_4, span_every = 30000)+
+  ggtitle("Prop of missing in Crm_4")
+
+grid.arrange(g1,g2,g3,g4, nrow = 2)
+```
+
+From the previous graph, we conclude that the missing value are mostly concentrated on these four columns. Thus, this graph displays the proportion of missing values in these four columns. Specifically, we can see that the values in columns Crm_cd_3 and Crm_cd_4 are completely missed. For weapon_used, it has about 60% of missing values, while Crm_cd_2 has 95% of missing data.
