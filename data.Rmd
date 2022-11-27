@@ -64,7 +64,7 @@ In our dataset, there actually contain lots of missing values, and they mostly c
 
 ```{r}
 # import data
-df <- read.csv("Crime_Data_from_2020_to_Present_column_modified.csv")
+df <- read.csv("Crime_Data_from_2020_to_Present_column_modified_zys1.csv")
 ```
 
 ```{r}
@@ -77,8 +77,9 @@ From the graph above, we can observe the missing patterns in this dataset. To be
 
 ```{r}
 library(gridExtra)
+library(ggplot2)
 
-g1<-gg_miss_span(df, Weapon_Used_Cd, span_every = 30000)+
+g1<-gg_miss_span(df, Weapon_Used_Cd, span_every = 30000) +
   ggtitle("Propo of missing in Weapon")
 
 g2<-gg_miss_span(df, Crm_Cd_2, span_every = 30000)+
