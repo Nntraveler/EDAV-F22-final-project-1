@@ -1,1 +1,120 @@
 # Results
+
+## Number of cases along time
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+#make a copy
+df_date_modified = df
+
+#convert date format
+df_date_modified$DATE_OCC = as.Date(df$DATE_OCC, format = "%m/%d/%Y")
+
+#group and count frequency
+df_grp_date = df_date_modified %>% group_by(DATE_OCC) %>%
+  summarise(date_count = n()) %>% ungroup()
+
+ggplot(df_grp_date, aes(x=DATE_OCC,y=date_count)) +
+  geom_line(color = "black", size = 0.5) + 
+  geom_smooth(color = "#00AFBB", size=0.7) +
+  scale_x_date(date_breaks = "10 week") +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1)) +
+  xlab("") +
+  ylab("Incidents Count") +
+  ggtitle("Number of crimes along time")
+```
+
+From the plot above, we can see that if we take a closer look at each month, the number of crime cases goes up and down: it may increase rapidly at a certain time, and then decrease dramatically in the next month. So there seem not exist a deterministic pattern like crime cases will increase in a certain period of time. The trend here appears to be a little bit random. Moreover, another finding is that the number of crime cases drops dramatically recently. One possible reason is that the data points in recent period are not as dense as before, which gives us misleading information that the number cases decrease recently.
+
+## Occuring Time in each day
+
+```{r}
+library(ggplot2)
+
+#create a copy
+df_timeoc_modified = df
+
+#convert military time into standard time
+df_timeoc_modified$TIME_OCC <- sprintf("%04d", df_timeoc_modified$TIME_OCC)
+df_timeoc_modified$TIME_OCC <- as.POSIXct(df_timeoc_modified$TIME_OCC, format = "%H%M", origin = "1970-01-01", tz = "UTC")
+df_timeoc_modified$TIME_OCC <- format(df_timeoc_modified$TIME_OCC, format = "%H")
+
+#group and count frequency
+df_grp_timeocc = df_timeoc_modified %>% group_by(TIME_OCC) %>%
+  summarise(time_occ_count = n()) %>% ungroup()
+
+ggplot(df_grp_timeocc, aes(x=TIME_OCC,y=time_occ_count)) +
+  geom_point(color = "blue") + 
+  geom_line(aes(x=TIME_OCC,y=time_occ_count, group=1), color = "red", size=0.7) +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust=0.5)) +
+  xlab("") +
+  ylab("Incidents Count") +
+  ggtitle("Number of crimes in each day")
+```
+
+First of all, we can observe that most crimes are concentrated during the late afternoon and evening while few are occurred in the morning. To be specific, the number of crime cases are over 30k from 15pm to 22pm. And at 12am, the number of cases start to decrease dramatically, reaching the lowest point at 5am. Then, it starts increases after 6am. The finding here is aligned with our intuition that criminals will usually perform crimes at night to avoid being caught.
+
+## Age Distribution
+
+```{r}
+library(dplyr)
+library(forcats)
+
+df_age_category = df
+
+df_age_category <- df_age_category %>% mutate(age_group = dplyr::case_when(
+      Vict_Age <= 18            ~ "0-18",
+      Vict_Age > 18 & Vict_Age <= 40 ~ "18-40",
+      Vict_Age > 40 & Vict_Age <= 64 ~ "40-64",
+      Vict_Age > 64 ~ "> 64"
+    ))
+
+df_age_category$age_group = as.character(df_age_category$age_group)
+
+ggplot(df_age_category, aes(x=fct_relevel(age_group,"> 64",after=4))) +
+  geom_histogram(stat="count") +
+  xlab("Age Group")
+
+```
+
+From the two plots, we can observe the overall distribution of the victims' ages. First of all, the most dominant group is the 18-40 age group, which are generally adults. And the group with least crimes is "\>64" age group, which mainly consists of elders. One possible reason is that most elders will stay at home, which significantly reduce their chances of encountering crimes. However, for the adults, since they need to work, they need to stay outside for most of time, which increases the possibility of exposing to dangers.
+
+## Sex Distribution
+
+```{r}
+
+#calculate counts
+df_sex = df
+df_grp_sex = df_sex %>% group_by(Vict_Sex) %>%
+  summarise(sex_count = n()) %>% ungroup()
+
+
+ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count, fill=Vict_Sex)) + geom_col()
+```
+
+From the pie chart above, we can see that there are generally more males than females in the victims.
+
+## Relation between Victim Age and Sex
+
+```{r}
+library(ggmosaic)
+
+df_age_missing = df_age_category
+
+#replace empty string with NA
+df_age_missing$Vict_Sex[df_age_missing$Vict_Sex == ""] <- NA
+
+#remove NA
+df_age_missing <- df_age_missing[!is.na(df_age_missing$Vict_Sex),]
+
+#reorder x axis
+df_age_missing$age_group = fct_relevel(df_age_missing$age_group,"> 64",after=4)
+
+ggplot(data = df_age_missing) +
+  geom_mosaic(aes(x = product(age_group), fill=Vict_Sex)) +
+  theme_mosaic()
+```
+
+From the mosaic plot above, we can see that in the teenagers group, 0-18, there are more male victims than female ones. And in other groups, the number of male and female victims are very close. And as age increases, the proportions of male victims slightly increases, which suggests that male should take more cautions in their safety when they are travelling.

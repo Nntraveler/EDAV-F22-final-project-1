@@ -7,5 +7,10 @@ sources
 cleaning-transformation
 missing-value-analysis
 results
+number-of-cases-along-time
+occuring-time-in-each-day
+age-distribution
+sex-distribution
+relation-between-victim-age-and-sex
 interactive-component
 conclusion
