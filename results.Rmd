@@ -73,21 +73,10 @@ df_age_category <- df_age_category %>% mutate(age_group = dplyr::case_when(
 
 df_age_category$age_group = as.character(df_age_category$age_group)
 
-ggplot(df_age_category, aes(x=fct_relevel(age_group,"> 64",after=4), fill = age_group)) +
+ggplot(df_age_category, aes(x=fct_relevel(age_group,"> 64",after=4))) +
   geom_histogram(stat="count") +
   xlab("Age Group")
 
-```
-
-```{r}
-
-df_grp_age = df_age_category %>% group_by(age_group) %>%
-  summarise(age_count = n()) %>% ungroup()
-
-ggplot(df_grp_age, aes(x="", y=age_count, fill=age_group)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) +
-  theme_void()
 ```
 
 From the two plots, we can observe the overall distribution of the victims' ages. First of all, the most dominant group is the 18-40 age group, which are generally adults. And the group with least crimes is "\>64" age group, which mainly consists of elders. One possible reason is that most elders will stay at home, which significantly reduce their chances of encountering crimes. However, for the adults, since they need to work, they need to stay outside for most of time, which increases the possibility of exposing to dangers.
@@ -102,10 +91,7 @@ df_grp_sex = df_sex %>% group_by(Vict_Sex) %>%
   summarise(sex_count = n()) %>% ungroup()
 
 
-ggplot(df_grp_sex[2:5,], aes(x="", y=sex_count, fill=Vict_Sex)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) +
-  theme_void()
+ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count, fill=Vict_Sex)) + geom_col()
 ```
 
 From the pie chart above, we can see that there are generally more males than females in the victims.
