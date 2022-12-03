@@ -9,8 +9,9 @@ missing-value-analysis
 results
 number-of-cases-along-time
 occuring-time-in-each-day
-age-distribution
-sex-distribution
-relation-between-victim-age-and-sex
+age-distribution-in-victims
+sex-distribution-in-victims
+relation-between-victim-age-and-sex-in-victims
+weapon-usage
 interactive-component
 conclusion
