@@ -1,0 +1,82 @@
+## Number of cases in spatial
+
+```{r}
+library(ggmap)
+library(dplyr)
+library(DBI)
+library(forcats)
+
+```
+
+```{r}
+con <- dbConnect(odbc::odbc(), .connection_string = "Driver={MySQL ODBC 8.0 Unicode Driver};Server=43.153.68.45;\nPort=12001;\nUID=edav;\nPWD=edav1edav;\nDatabase = edav", 
+    timeout = 10)
+df = tbl(con, "crime_data") %>%
+  collect()
+```
+
+```{r}
+df_area = df
+df_area_count = df %>%
+  group_by(AREA_NAME) %>%
+  summarise(area_count = n()) %>% ungroup() %>%
+  mutate(AREA_NAME = fct_reorder(AREA_NAME, desc(area_count)))
+
+ggplot(df_area_count, aes(x=AREA_NAME, y=area_count)) + 
+  geom_col() +
+  ylab("Log scale area count") +
+  ggtitle("Distribution of area")
+```
+
+- The bar char shows the number of crime cases happened in every area.
+
+- However, this does not reflect real spatial distribution
+
+  - We checked the longitude and latitude, and found that this `AREA_NAME` column can just reflect the police station.
+
+
+```{r}
+la_map <- get_googlemap(center = c(lon = -118.243683, lat = 34.052235), zoom = 10, maptype = "roadmap")
+la_map_central <- get_googlemap(center = c(lon = -118.243683, lat = 34.052235), zoom = 12, maptype = "roadmap")
+```
+
+```{r}
+df_sample = df %>%
+  sample_n(size=1000)
+ggmap(la_map) +
+  stat_density2d( aes(x = LON, y = LAT, fill = ..level.., alpha = ..level..), size = 3, bins = 8, data = df_sample, geom = "polygon" )
+```
+Note: We use sample to prevent crime cases being too dense to show in the LA map.
+
+As we can see in the graph,
+
+- Most crime cases happened in the central area of LA
+
+- Some other happened in the northwestern area of LA
+
+It seems intuitive that most crime cases are in the central part, which is consistent with our bar chart. To observe more information, We decided to explore details in the city center.
+
+```{r}
+ggmap(la_map_central) +
+  stat_density2d( aes(x = LON, y = LAT, fill = ..level.., alpha = ..level..), size = 3, bins = 8, data = df, geom = "polygon" )
+```
+Note: Here we use the full data to highlight the peak
+
+After we zoom into the central area:
+
+- There are two peaks
+
+  - One is in Hollywood.
+  
+  - Another is in the middle part, including Fashion District and Skid Row.
+  
+To figure out the reason for this phenomenon, we collected some interesting statistics from [Mapping L.A.](https://maps.latimes.com/neighborhoods/index.html). Although some data is not up-to-date, we still consider it as a reliable explanation for the distribution, since these population-related data will not change dramatically:
+
+1. Population density
+Obviously, high population density may lead to high number of crimes. The density in Hollywood is 22,193 people per square mile, among the highest densities for the city of Los Angeles. This can explain the relatively high crime density in that area.
+However, the downtown area only has 4,770 people per square mile, among the lowest densities for the city of Los Angeles, which means we can't simply attribute the high crime rate to high population.
+
+2. Income
+In Hollywood, there is a $33,694 median household income (2008 dollars), low for the city of Los Angeles and low for the county
+In downtown, there is a $15,003 median household income (2008 dollars), low for the city of Los Angeles and low for the county
+Both areas are low in income, it makes sense that lower income leads to higher crime rate.
