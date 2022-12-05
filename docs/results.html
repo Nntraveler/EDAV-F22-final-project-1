@@ -23,7 +23,7 @@
 <meta name="author" content="FeiFan Li, Wenqi Sun, Yusong Zhao" />
 
 
-<meta name="date" content="2022-11-28" />
+<meta name="date" content="2022-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -88,9 +88,10 @@
 <ul>
 <li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#number-of-cases-along-time"><i class="fa fa-check"></i><b>4.1</b> Number of cases along time</a></li>
 <li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#occuring-time-in-each-day"><i class="fa fa-check"></i><b>4.2</b> Occuring Time in each day</a></li>
-<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#age-distribution"><i class="fa fa-check"></i><b>4.3</b> Age Distribution</a></li>
-<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#sex-distribution"><i class="fa fa-check"></i><b>4.4</b> Sex Distribution</a></li>
-<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#relation-between-victim-age-and-sex"><i class="fa fa-check"></i><b>4.5</b> Relation between Victim Age and Sex</a></li>
+<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#age-distribution-in-victims"><i class="fa fa-check"></i><b>4.3</b> Age Distribution in victims</a></li>
+<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#sex-distribution-in-victims"><i class="fa fa-check"></i><b>4.4</b> Sex Distribution in victims</a></li>
+<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#relation-between-victim-age-and-sex-in-victims"><i class="fa fa-check"></i><b>4.5</b> Relation between Victim Age and Sex in Victims</a></li>
+<li class="chapter" data-level="4.6" data-path="results.html"><a href="results.html#weapon-usage"><i class="fa fa-check"></i><b>4.6</b> Weapon Usage</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
 <li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
@@ -125,20 +126,25 @@
 <p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>First of all, we can observe that most crimes are concentrated during the late afternoon and evening while few are occurred in the morning. To be specific, the number of crime cases are over 30k from 15pm to 22pm. And at 12am, the number of cases start to decrease dramatically, reaching the lowest point at 5am. Then, it starts increases after 6am. The finding here is aligned with our intuition that criminals will usually perform crimes at night to avoid being caught.</p>
 </div>
-<div id="age-distribution" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> Age Distribution<a href="results.html#age-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="age-distribution-in-victims" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Age Distribution in victims<a href="results.html#age-distribution-in-victims" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>From the two plots, we can observe the overall distribution of the victims’ ages. First of all, the most dominant group is the 18-40 age group, which are generally adults. And the group with least crimes is “&gt;64” age group, which mainly consists of elders. One possible reason is that most elders will stay at home, which significantly reduce their chances of encountering crimes. However, for the adults, since they need to work, they need to stay outside for most of time, which increases the possibility of exposing to dangers.</p>
 </div>
-<div id="sex-distribution" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Sex Distribution<a href="results.html#sex-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="sex-distribution-in-victims" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Sex Distribution in victims<a href="results.html#sex-distribution-in-victims" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>From the pie chart above, we can see that there are generally more males than females in the victims.</p>
+<p>From the histogram above, we can see that there are generally more males than females in the victims. And other types of gender only occupy very small proportions.</p>
 </div>
-<div id="relation-between-victim-age-and-sex" class="section level2 hasAnchor" number="4.5">
-<h2><span class="header-section-number">4.5</span> Relation between Victim Age and Sex<a href="results.html#relation-between-victim-age-and-sex" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="relation-between-victim-age-and-sex-in-victims" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Relation between Victim Age and Sex in Victims<a href="results.html#relation-between-victim-age-and-sex-in-victims" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>From the mosaic plot above, we can see that in the teenagers group, 0-18, there are more male victims than female ones. And in other groups, the number of male and female victims are very close. And as age increases, the proportions of male victims slightly increases, which suggests that male should take more cautions in their safety when they are travelling.</p>
+<p>From the mosaic plot above, we can see that in the teenagers group, 0-18, there are more male victims than female ones. And in other groups, the number of male and female victims are very close. And as age increases, the proportions of male victims slightly increases, which suggests that male should take more cautions in their safety when they are travelling. And for the unspecified gender X, as age increases, its proportion decreases rapidly.</p>
+</div>
+<div id="weapon-usage" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Weapon Usage<a href="results.html#weapon-usage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+From the graph above, we can observe that the most frequent type of weapon is the fist, which is often used in fights. This aligns with our intuition because fights are much more frequent compared with other types. Furthermore, the second most frequent weapon besides Other is the gun. Comparing with the fist, gun will usually cause more severe consequence. And when we are travelling, we should definitely avoid this type of crime. The remaining two types of weapons are sharp and blunt. Even though they will not create much damage as gun, tourists should try to avoid as well.</p>
 
 </div>
 </div>
