@@ -56,7 +56,7 @@ ggplot(df_grp_timeocc, aes(x=TIME_OCC,y=time_occ_count)) +
 
 First of all, we can observe that most crimes are concentrated during the late afternoon and evening while few are occurred in the morning. To be specific, the number of crime cases are over 30k from 15pm to 22pm. And at 12am, the number of cases start to decrease dramatically, reaching the lowest point at 5am. Then, it starts increases after 6am. The finding here is aligned with our intuition that criminals will usually perform crimes at night to avoid being caught.
 
-## Age Distribution
+## Age Distribution in victims
 
 ```{r}
 library(dplyr)
@@ -75,13 +75,14 @@ df_age_category$age_group = as.character(df_age_category$age_group)
 
 ggplot(df_age_category, aes(x=fct_relevel(age_group,"> 64",after=4))) +
   geom_histogram(stat="count") +
-  xlab("Age Group")
+  xlab("Age Group")+
+  ggtitle("Distribution of Victim's Age")
 
 ```
 
 From the two plots, we can observe the overall distribution of the victims' ages. First of all, the most dominant group is the 18-40 age group, which are generally adults. And the group with least crimes is "\>64" age group, which mainly consists of elders. One possible reason is that most elders will stay at home, which significantly reduce their chances of encountering crimes. However, for the adults, since they need to work, they need to stay outside for most of time, which increases the possibility of exposing to dangers.
 
-## Sex Distribution
+## Sex Distribution in victims
 
 ```{r}
 
@@ -91,12 +92,16 @@ df_grp_sex = df_sex %>% group_by(Vict_Sex) %>%
   summarise(sex_count = n()) %>% ungroup()
 
 
-ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count, fill=Vict_Sex)) + geom_col()
+ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count)) + 
+  geom_col() +
+  scale_y_log10() +
+  ylab("Log scale sex count") +
+  ggtitle("Distribution of Victims Sex")
 ```
 
-From the pie chart above, we can see that there are generally more males than females in the victims.
+From the histogram above, we can see that there are generally more males than females in the victims. And other types of gender only occupy very small proportions.
 
-## Relation between Victim Age and Sex
+## Relation between Victim Age and Sex in Victims
 
 ```{r}
 library(ggmosaic)
@@ -114,7 +119,34 @@ df_age_missing$age_group = fct_relevel(df_age_missing$age_group,"> 64",after=4)
 
 ggplot(data = df_age_missing) +
   geom_mosaic(aes(x = product(age_group), fill=Vict_Sex)) +
-  theme_mosaic()
+  theme_mosaic() +
+  ggtitle("Relation between Victim Sex and Age")
 ```
 
-From the mosaic plot above, we can see that in the teenagers group, 0-18, there are more male victims than female ones. And in other groups, the number of male and female victims are very close. And as age increases, the proportions of male victims slightly increases, which suggests that male should take more cautions in their safety when they are travelling.
+From the mosaic plot above, we can see that in the teenagers group, 0-18, there are more male victims than female ones. And in other groups, the number of male and female victims are very close. And as age increases, the proportions of male victims slightly increases, which suggests that male should take more cautions in their safety when they are travelling. And for the unspecified gender X, as age increases, its proportion decreases rapidly.
+
+## Weapon Usage
+
+```{r}
+#extract first character
+weapon_code <- substring(df$Weapon_Used_Cd,1,1)
+weapon_code_df <- data.frame(weapon_code)
+
+#replace string
+weapon_code_df$weapon_code[weapon_code_df$weapon_code == "1"] <- "Gun"
+
+weapon_code_df$weapon_code[weapon_code_df$weapon_code == "2"] <- "Sharp"
+
+weapon_code_df$weapon_code[weapon_code_df$weapon_code == "3"] <- "Blunt/Strike"
+
+weapon_code_df$weapon_code[weapon_code_df$weapon_code == "4"] <- "Fist"
+
+weapon_code_df$weapon_code[weapon_code_df$weapon_code == "5"] <- "Other"
+
+ggplot(na.omit(weapon_code_df), aes(x=fct_relevel(weapon_code, "Other", after=0), fill=weapon_code)) +
+  geom_histogram(stat="count") +
+  xlab("Weapon Types") +
+  coord_flip() +
+  ggtitle("Count of Weapon Types")
+```
+From the graph above, we can observe that the most frequent type of weapon is the fist, which is often used in fights. This aligns with our intuition because fights are much more frequent compared with other types. Furthermore, the second most frequent weapon besides Other is the gun. Comparing with the fist, gun will usually cause more severe consequence. And when we are travelling, we should definitely avoid this type of crime. The remaining two types of weapons are sharp and blunt. Even though they will not create much damage as gun, tourists should try to avoid as well.
