@@ -13,5 +13,6 @@ age-distribution-in-victims
 sex-distribution-in-victims
 relation-between-victim-age-and-sex-in-victims
 weapon-usage
+number-of-cases-in-spatial
 interactive-component
 conclusion
