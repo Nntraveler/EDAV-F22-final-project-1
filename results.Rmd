@@ -99,7 +99,7 @@ ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count)) +
   ggtitle("Distribution of Victims Sex")
 ```
 
-From the histogram above, we can see that there are generally more males than females in the victims. And other types of gender only occupy very small proportions.
+From the histogram above, we can see that there are equal number of males and females in the victims. And other types of gender only occupy very small proportions.
 
 ## Relation between Victim Age and Sex in Victims
 
