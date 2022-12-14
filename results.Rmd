@@ -10,7 +10,7 @@ library(ggplot2)
 df_date_modified = df
 
 #convert date format
-df_date_modified$DATE_OCC = as.Date(df$DATE_OCC, format = "%m/%d/%Y")
+df_date_modified$DATE_OCC = as.Date(df_date_modified$DATE_OCC, format = "%m/%d/%Y")
 
 #group and count frequency
 df_grp_date = df_date_modified %>% group_by(DATE_OCC) %>%
@@ -62,8 +62,10 @@ First of all, we can observe that most crimes are concentrated during the late a
 library(dplyr)
 library(forcats)
 
+#create a copy
 df_age_category = df
 
+#categorize them
 df_age_category <- df_age_category %>% mutate(age_group = dplyr::case_when(
       Vict_Age <= 18            ~ "0-18",
       Vict_Age > 18 & Vict_Age <= 40 ~ "18-40",
@@ -71,6 +73,7 @@ df_age_category <- df_age_category %>% mutate(age_group = dplyr::case_when(
       Vict_Age > 64 ~ "> 64"
     ))
 
+#convert data types
 df_age_category$age_group = as.character(df_age_category$age_group)
 
 ggplot(df_age_category, aes(x=fct_relevel(age_group,"> 64",after=4))) +
@@ -128,28 +131,52 @@ From the mosaic plot above, we can see that in the teenagers group, 0-18, there 
 ## Weapon Usage
 
 ```{r}
+library(treemap)
+library(tidyr)
+
+weapon_df = df
+
 #extract first character
 weapon_code <- substring(df$Weapon_Used_Cd,1,1)
-weapon_code_df <- data.frame(weapon_code)
+weapon_df$code <- weapon_code
 
 #replace string
-weapon_code_df$weapon_code[weapon_code_df$weapon_code == "1"] <- "Gun"
+weapon_df$weapon_name[weapon_df$code == "1"] <- "Gun"
 
-weapon_code_df$weapon_code[weapon_code_df$weapon_code == "2"] <- "Sharp"
+weapon_df$weapon_name[weapon_df$code == "2"] <- "Sharp"
 
-weapon_code_df$weapon_code[weapon_code_df$weapon_code == "3"] <- "Blunt/Strike"
+weapon_df$weapon_name[weapon_df$code == "3"] <- "Blunt"
 
-weapon_code_df$weapon_code[weapon_code_df$weapon_code == "4"] <- "Fist"
+weapon_df$weapon_name[weapon_df$code == "4"] <- "Fist"
 
-weapon_code_df$weapon_code[weapon_code_df$weapon_code == "5"] <- "Other"
+weapon_df$weapon_name[weapon_df$code == "5"] <- "Other"
 
-ggplot(na.omit(weapon_code_df), aes(x=fct_relevel(weapon_code, "Other", after=0), fill=weapon_code)) +
-  geom_histogram(stat="count") +
-  xlab("Weapon Types") +
-  coord_flip() +
-  ggtitle("Count of Weapon Types")
+#calculate counts and reorder
+df_weapon_count = weapon_df %>%
+  group_by(weapon_name,code,Weapon_Used_Cd) %>%
+  summarise(weapon_count = n()) %>% ungroup()
+
+treemap(df_weapon_count,
+        index=c("weapon_name", "Weapon_Used_Cd"),
+        vSize="weapon_count",
+        vColor="weapon_name",
+        type="index",
+        title="Weapon Usage",
+        format.legend = list(scientific = FALSE, big.mark = " "))
 ```
-From the graph above, we can observe that the most frequent type of weapon is the fist, which is often used in fights. This aligns with our intuition because fights are much more frequent compared with other types. Furthermore, the second most frequent weapon besides Other is the gun. Comparing with the fist, gun will usually cause more severe consequence. And when we are travelling, we should definitely avoid this type of crime. The remaining two types of weapons are sharp and blunt. Even though they will not create much damage as gun, tourists should try to avoid as well.
+
+Note:  
+Code 400: Strong arm or Fist\
+Code 500: Other\
+Code 511: Verbal Threat\
+Code 200: Knife with blade\
+Code 204: Holding Knife\
+Code 302: Blunt Instrument\
+Code 307: Vehicle\
+Code 109: Pistol\
+Code 102: Hand Gun
+
+From the graph above, we can observe that the most frequent type of weapon is the fist, which is often used in fights. This aligns with our intuition because fights are much more frequent compared with other types. Furthermore, the second most frequent weapon besides Other is the gun. Comparing with the fist, gun will usually cause more severe consequence. And when we are travelling, we should definitely avoiFd this type of crime. The remaining two types of weapons are sharp and blunt. Even though they will not create much damage as gun, tourists should try to avoid as well.
 
 ## Number of cases in spatial
 
@@ -162,7 +189,9 @@ library(forcats)
 ```
 
 ```{r}
-df_area = df
+df_area = df #create copy
+
+#calculate counts and reorder
 df_area_count = df %>%
   group_by(AREA_NAME) %>%
   summarise(area_count = n()) %>% ungroup() %>%
@@ -175,34 +204,31 @@ ggplot(df_area_count, aes(x=AREA_NAME, y=area_count)) +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-- The bar char shows the number of crime cases happened in every area.
+-   The bar char shows the number of crime cases happened in every area.
 
-- However, this does not reflect real spatial distribution
+-   However, this does not reflect real spatial distribution
 
-  - We checked the longitude and latitude, and found that this `AREA_NAME` column can just reflect the police station.
-
+    -   We checked the longitude and latitude, and found that this `AREA_NAME` column can just reflect the police station.
 
 ```{r}
 la_map <- get_googlemap(center = c(lon = -118.243683, lat = 34.052235), zoom = 10, maptype = "roadmap")
 la_map_central <- get_googlemap(center = c(lon = -118.243683, lat = 34.052235), zoom = 12, maptype = "roadmap")
 ```
 
-
-
 ```{r}
 df_sample = df %>%
   sample_n(size=1000)
 ggmap(la_map) +
-  stat_density2d( aes(x = LON, y = LAT, fill = ..level.., alpha = ..level..), size = 3, bins = 8, data = df_sample, geom = "polygon" )
+  stat_density2d( aes(x = LON, y = LAT, fill = ..level.., alpha = ..level..), size = 3, bins = 8, data = df_sample, geom = "polygon" ) + ggtitle("Crime Cases in Los Angeles")
 ```
 
 Note: We use sample to prevent crime cases being too dense to show in the LA map.
 
 As we can see in the graph,
 
-- Most crime cases happened in the central area of LA
+-   Most crime cases happened in the central area of LA
 
-- Some other happened in the northwestern area of LA
+-   Some other happened in the northwestern area of LA
 
 It seems intuitive that most crime cases are in the central part, which is consistent with our bar chart. To observe more information, We decided to explore details in the city center.
 
@@ -215,19 +241,14 @@ Note: Here we use the full data to highlight the peak
 
 After we zoom into the central area:
 
-- There are two peaks
+-   There are two peaks
 
-  - One is in Hollywood.
-  
-  - Another is in the middle part, including Fashion District and Skid Row.
-  
+    -   One is in Hollywood.
+
+    -   Another is in the middle part, including Fashion District and Skid Row.
+
 To figure out the reason for this phenomenon, we collected some interesting statistics from [Mapping L.A.](https://maps.latimes.com/neighborhoods/index.html). Although some data is not up-to-date, we still consider it as a reliable explanation for the distribution, since these population-related data will not change dramatically:
 
-1. Population density
-Obviously, high population density may lead to high number of crimes. The density in Hollywood is 22,193 people per square mile, among the highest densities for the city of Los Angeles. This can explain the relatively high crime density in that area.
-However, the downtown area only has 4,770 people per square mile, among the lowest densities for the city of Los Angeles, which means we can't simply attribute the high crime rate to high population.
+1.  Population density Obviously, high population density may lead to high number of crimes. The density in Hollywood is 22,193 people per square mile, among the highest densities for the city of Los Angeles. This can explain the relatively high crime density in that area. However, the downtown area only has 4,770 people per square mile, among the lowest densities for the city of Los Angeles, which means we can't simply attribute the high crime rate to high population.
 
-2. Income
-In Hollywood, there is a $33,694 median household income (2008 dollars), low for the city of Los Angeles and low for the county
-In downtown, there is a $15,003 median household income (2008 dollars), low for the city of Los Angeles and low for the county
-Both areas are low in income, it makes sense that lower income leads to higher crime rate.
+2.  Income In Hollywood, there is a \$33,694 median household income (2008 dollars), low for the city of Los Angeles and low for the county In downtown, there is a \$15,003 median household income (2008 dollars), low for the city of Los Angeles and low for the county Both areas are low in income, it makes sense that lower income leads to higher crime rate.
