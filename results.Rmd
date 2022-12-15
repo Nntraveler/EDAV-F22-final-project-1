@@ -18,7 +18,7 @@ df_grp_date = df_date_modified %>% group_by(DATE_OCC) %>%
 
 ggplot(df_grp_date, aes(x=DATE_OCC,y=date_count)) +
   geom_line(color = "black", size = 0.5) + 
-  geom_smooth(color = "#00AFBB", size=0.7) +
+  geom_smooth(color = "red", size=0.7) +
   scale_x_date(date_breaks = "10 week") +
   theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1)) +
   xlab("") +
@@ -88,14 +88,14 @@ From the two plots, we can observe the overall distribution of the victims' ages
 ## Sex Distribution in victims
 
 ```{r}
-
+library(forcats)
 #calculate counts
 df_sex = df
 df_grp_sex = df_sex %>% group_by(Vict_Sex) %>%
   summarise(sex_count = n()) %>% ungroup()
 
 
-ggplot(df_grp_sex[2:5,], aes(x=Vict_Sex, y=sex_count)) + 
+ggplot(df_grp_sex[2:5,], aes(x=fct_reorder(Vict_Sex,sex_count,.desc=TRUE), y=sex_count)) + 
   geom_col() +
   scale_y_log10() +
   ylab("Log scale sex count") +
@@ -198,7 +198,7 @@ df_area_count = df %>%
   mutate(AREA_NAME = fct_reorder(AREA_NAME, desc(area_count)))
 
 ggplot(df_area_count, aes(x=AREA_NAME, y=area_count)) + 
-  geom_col() +
+  geom_col(fill="royalblue") +
   ylab("Log scale area count") +
   ggtitle("Distribution of area") +
   theme(axis.text.x = element_text(angle = 90))
