@@ -199,7 +199,7 @@ df_area_count = df %>%
 
 ggplot(df_area_count, aes(x=AREA_NAME, y=area_count)) + 
   geom_col(fill="royalblue") +
-  ylab("Log scale area count") +
+  ylab("Area count") +
   ggtitle("Distribution of area") +
   theme(axis.text.x = element_text(angle = 90))
 ```
@@ -228,6 +228,8 @@ ggplot(df_grp_area_time_occ, aes(x = TIME_OCC, y = AREA_NAME)) +
     low = "white",
     high = "red") + ggtitle("Crimes per square mile ~ Area & Time")
 ```
+
+
 To give visitors more meaningful advice on safety, we consider the number of crimes with the size of the area by dividing the number of crimes by the area of each community, getting the number of crimes per square mile. By doing so, we can quantify the probability of encountering danger when traveling in these areas & time.
 
 -   From the heat map above, we can conclude that:
