@@ -226,7 +226,7 @@ ggplot(df_grp_area_time_occ, aes(x = TIME_OCC, y = AREA_NAME)) +
   geom_tile(aes(fill = occ_count), color = "white") +
   coord_fixed() +   scale_fill_gradient(
     low = "white",
-    high = "red")
+    high = "red") + ggtitle("Crimes per square mile ~ Area & Time")
 ```
 To give visitors more meaningful advice on safety, we consider the number of crimes with the size of the area by dividing the number of crimes by the area of each community, getting the number of crimes per square mile. By doing so, we can quantify the probability of encountering danger when traveling in these areas & time.
 
