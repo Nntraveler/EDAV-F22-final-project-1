@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Bar Chart</title>
+
+  <style>
+    * {
+      font-family: sans-serif;
+    }
+    text {
+      font-size: 12px;
+    }
+    .bar {
+      fill: steelblue;
+    }
+    .bar:hover {
+      fill: brown;
+    }
+    /* Define the styles for the tooltip class */
+    .tooltip {
+      position: absolute;
+    }
+
+    .tooltip img{
+      height: 50px;
+      width: 50px;
+    }
+
+    .tooltip text{
+      font-size: 16px;
+      position: relative;
+      bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<h3>Weapon category by sex</h3>
+<p>(Hover over bars for more details.)</p>
+<input type="radio" name="sex_choice" value="M" checked="true">Male
+<input type="radio" name="sex_choice" value="F">Female
+<div id="chart"></div>
+<script src="https://d3js.org/d3.v7.js">  </script>
+<script type="text/javascript">
+
+  //Width and height
+  var w = 700;
+  var h = 300;
+  var margin = {top: 25, right: 100, bottom: 50, left: 100};
+  var innerHeight = h - margin.top - margin.bottom;
+  var innerWidth = w - margin.left - margin.right;
+
+  // create SVG element
+  var svg = d3.select("#chart")
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h)
+
+  // create background rectangle
+  svg.append("rect")
+          .attr("width", w)
+          .attr("height", h)
+          .attr("fill", "#e7f5fe");
+
+  // create caption
+  d3.select("body")
+          .append("div")
+          .style("padding", "10px")
+          .append("a")
+          .attr("href", "https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8")
+          .text("Data source: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8");
+
+  // create plot group
+  svg.append("g")
+          .attr("id", "plot")
+          .attr("transform", `translate (${margin.left}, ${margin.top})`);
+  const data = [
+    {
+      "category": "Fist",
+      "percentage": 0.4033,
+      "sex": "M"
+    },
+    {
+      "category": "Gun",
+      "percentage": 0.2152,
+      "sex": "M"
+    },
+    {
+      "category": "Other",
+      "percentage": 0.1737,
+      "sex": "M"
+    },
+    {
+      "category": "Sharp",
+      "percentage": 0.1316,
+      "sex": "M"
+    },
+    {
+      "category": "Blunt",
+      "percentage": 0.0759,
+      "sex": "M"
+    },
+    {
+      "category": "Fist",
+      "percentage": 0.6758,
+      "sex": "F"
+    },
+    {
+      "category": "Gun",
+      "percentage": 0.045,
+      "sex": "F"
+    },
+    {
+      "category": "Other",
+      "percentage": 0.1497,
+      "sex": "F"
+    },
+    {
+      "category": "Sharp",
+      "percentage": 0.0564,
+      "sex": "F"
+    },
+    {
+      "category": "Blunt",
+      "percentage": 0.0767,
+      "sex": "F"
+    }
+  ]
+  
+  // create four categories
+  var cur_sex = "M";
+  var dataset = data.filter(d => d.sex === cur_sex);
+
+
+  // create scales
+
+  const xScale = d3.scaleLinear()
+          .domain([0, d3.max(data.map(d => d.percentage + 0.05))])
+          .range([0, innerWidth]);
+
+  const yScale = d3.scaleBand()
+          .domain(dataset.map(d => d.category))
+          .range([0, innerHeight]);
+
+  const xAxis = d3.axisBottom()
+          .scale(xScale);
+
+  const yAxis = d3.axisLeft()
+          .scale(yScale);
+
+
+  // Create bars
+  svg.select("g#plot")
+          .selectAll("rect")
+          .data(dataset)
+          .enter()
+          .append("rect")
+          .attr("class", "bar")
+          .attr("x", 0)
+          .attr("y", d => yScale(d.category) + .25 * yScale.bandwidth())
+          .attr("width", d => xScale(d.percentage))
+          .attr("height", .5 * yScale.bandwidth())
+          .on("mouseover", showTooltip)
+          .on("mouseout", hideTooltip);
+
+  // create x-axis
+  svg.select("g#plot")
+          .append("g")
+          .attr("id", "xaxis")
+          .attr("transform", `translate (0, ${innerHeight})`)
+          .call(xAxis);
+
+  // create x-axis label
+  svg.select("g#plot")
+          .append("text")
+          .attr("id", "xlab")
+          .attr("x", innerWidth / 2)
+          .attr("y", innerHeight + .75 * margin.bottom)
+          .attr("text-anchor", "middle")
+          .text("percentage");
+
+  // create y-axis
+  svg.select("g#plot")
+          .append("g")
+          .call(yAxis);
+  function onUpdate(data, new_sex){
+    const new_dataset = data.filter(d => d.sex === new_sex);
+    const bars = svg.select("g#plot")
+            .selectAll("rect")
+            .data(new_dataset)
+            .transition()
+            .duration(500)
+
+    bars.attr("width", d => xScale(d.percentage))
+
+  }
+
+  d3.selectAll("input")
+          .on("click", function(event) {
+            const sex = event.currentTarget.value;
+            onUpdate(data, sex)
+          });
+  // Add a tooltip to the chart
+  const tooltip = d3.select("#chart")
+          .append("g")
+          .attr("class", "tooltip")
+          .style("display", "none")
+
+  tooltip.append("rect")
+          .attr("width", 60)
+          .attr("height", 20)
+          .attr("fill", "white")
+          .style("opacity", 0.5);
+
+  tooltip.append("text")
+          .attr("x", 30)
+          .attr("dy", "1.2em")
+          .style("text-anchor", "middle");
+
+  // Show the tooltip when the user hovers over a bar
+  function showTooltip(event, d) {
+    const xPos = event.clientX;
+    const yPos = event.clientY;
+    const width = parseInt(d3.select(this).attr("width"));
+    d3.select(".tooltip")
+            .style("display", "block")
+            .style("left", `${xPos + 15}px`)
+            .style("top", `${yPos + 15}px`)
+            .select("text")
+            .text(`${(d.percentage).toFixed(4)}`);
+    d3.select(".tooltip")
+            .append("img")
+            .attr("src", `images/${d.category}.png`)
+            .attr("alt", d.category)
+  }
+
+  // Hide the tooltip when the user moves the cursor away from a bar
+  function hideTooltip() {
+    d3.select(".tooltip")
+            .style("display", "none")
+            .select("img")
+            .remove();
+  }
+
+</script>
+</body>
+</html>

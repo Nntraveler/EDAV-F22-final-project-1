@@ -1,3 +1,26 @@
 # Interactive component
 
 
+<iframe src="bar.html" width="800" height="600"></iframe>
+
+- You can change between male and female, and hover on each bar to check the exact value and weapon type example.
+
+- The bar chart shows that
+
+  - crimes against females were more likely to involve the use of fists as a weapon compared to crimes against males, while crimes against males were more likely to involve the use of guns as a weapon compared to crimes against females. 
+  - In the other categories (Other, Sharp, and Blunt), there were relatively similar levels of weapon usage in crimes against males and females.
+  - Based on our observation, there are lots of sexual assault against female, and fist is the most common weapon used for raping. This can result in the difference in category `fist`
+
+- Features to be included in the future
+
+  - rendering some randomly-sampled marks on the map
+  
+    - Females and males are colored differently
+  
+  - when users click the mark, all the information will pop up
+  
+    - victim's information
+    - the location
+    - weapon used
+    - case description
+    - ...
