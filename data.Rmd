@@ -139,7 +139,7 @@ In our dataset, there actually contain lots of missing values, and they mostly c
 
 ```{r}
 # import data
-df <- read.csv("Crime_Data_from_2020_to_Present_column_modified_zys1.csv")
+df <- read.csv("Data/clean/Crime_Data_from_2020_to_Present_column_modified_zys1.csv")
 ```
 
 ```{r}
