@@ -2,7 +2,7 @@
 
 ## Sources
 
-Crime Data from 2020 to Present
+### Crime Data from 2020 to Present
 
 [Los Angeles Open Data](<https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8>[)](%5Bhttps://clio.columbia.edu/))](<https://clio.columbia.edu/>)))
 
@@ -56,7 +56,82 @@ The data was collected by the Los Angeles Police Department, LAPD. It reflects i
 
 On the dataset webpage(Link is attached on the top of the file), click the "Contact Dataset Owner" button to ask a question, make a comment, or point out something about the data.
 
+
+### Area size of each community(Supplementary Dataset)
+
+[lapdonline.org](https://www.lapdonline.org)
+
+-   https://www.lapdonline.org/lapd-contact/south-bureau/77th-street-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/central-bureau/central-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/devonshire-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/foothill-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/south-bureau/harbor-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/central-bureau/hollenbeck-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/west-bureau/hollywood-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/mission-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/north-hollywood-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/central-bureau/
+
+-   https://www.lapdonline.org/lapd-contact/central-bureau/northeast-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/west-bureau/
+
+-   https://www.lapdonline.org/lapd-contact/west-bureau/pacific-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/central-bureau/rampart-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/south-bureau/southeast-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/south-bureau/southwest-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/van-nuys-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/west-bureau/west-los-angeles-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/valley-bureau/west-valley-community-police-station/
+
+-   https://www.lapdonline.org/lapd-contact/west-bureau/wilshire-community-police-station/
+
+
+**Data Format:**
+
+-   The area size data is written in text format on the website of LAPD division.
+
+-   Two variables: area, size.
+
+-   2 rows, 21 columns, each row is an area name with its corresponding size(unit: square miles)
+
+**Issues:**
+
+-   There are three division(communities), which were added in recent years and do not have a area size data on its website. They are Newton division from central bureau, Olympic division from west bureau and Topanga division in valley bureau
+
+**Plan to import:**
+
+Browse all webpages and manually enter the data into a csv table.
+
+
 ## Cleaning / transformation
+
+### Crime Data from 2020 to Present
+
+A tidy data set has one observation in each row, and the variable we are interested in is Mocodes, which are the activities associated with crime. We split rows with multiple Mocodes, so that each line contains only one Mocode, representing an observation. We write a simple python script to do this.
+
+### Area size of each community
+
+The data collected directly from text on the websites lacks information on the area of the three divisions (Newton, Olympic and Topanga). But fortunately, those three divisions belong to three different bureaus, and on the official websites of these bureaus, the total area of all divisions under a certain bureau is shown. 
+
+We can get the area of these three unknown communities(divisions) by subtracting the area of the other known divisions in the same bureau from the total area in that bureau,and add this value to our table.
 
 ## Missing value analysis
 
