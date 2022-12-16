@@ -98,6 +98,7 @@ df_grp_sex = df_sex %>% group_by(Vict_Sex) %>%
 ggplot(df_grp_sex[2:5,], aes(x=fct_reorder(Vict_Sex,sex_count,.desc=TRUE), y=sex_count)) + 
   geom_col() +
   scale_y_log10() +
+  xlab("Sex") +
   ylab("Log scale sex count") +
   ggtitle("Distribution of Victims Sex")
 ```
