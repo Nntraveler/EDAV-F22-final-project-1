@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Results | EDAV-F22-final-project</title>
   <meta name="description" content="Chapter 4 Results | EDAV-F22-final-project" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Results | EDAV-F22-final-project" />
   <meta property="og:type" content="book" />
@@ -80,8 +80,16 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a></li>
-<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources"><i class="fa fa-check"></i><b>3.1</b> Sources</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="data.html"><a href="data.html#crime-data-from-2020-to-present"><i class="fa fa-check"></i><b>3.1.1</b> Crime Data from 2020 to Present</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data.html"><a href="data.html#area-size-of-each-communitysupplementary-dataset"><i class="fa fa-check"></i><b>3.1.2</b> Area size of each community(Supplementary Dataset)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data.html"><a href="data.html#crime-data-from-2020-to-present-1"><i class="fa fa-check"></i><b>3.2.1</b> Crime Data from 2020 to Present</a></li>
+<li class="chapter" data-level="3.2.2" data-path="data.html"><a href="data.html#area-size-of-each-community"><i class="fa fa-check"></i><b>3.2.2</b> Area size of each community</a></li>
+</ul></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
@@ -161,13 +169,24 @@ Code 102: Hand Gun</p>
 <h2><span class="header-section-number">4.7</span> Number of cases in spatial<a href="results.html#number-of-cases-in-spatial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <ul>
-<li><p>The bar char shows the number of crime cases happened in every area.</p></li>
+<li>The bar char shows the number of crime cases happened in every area.</li>
+</ul>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>To give visitors more meaningful advice on safety, we consider the number of crimes with the size of the area by dividing the number of crimes by the area of each community, getting the number of crimes per square mile. By doing so, we can quantify the probability of encountering danger when traveling in these areas &amp; time.</p>
+<ul>
+<li><p>From the heat map above, we can conclude that:</p>
+<ul>
+<li>If people don’t want to take any risks, they should stay away from Olympic area at all times. Also, be very careful when hanging around in Rampart and Central area, especially from 9AM to 11PM.<br />
+</li>
+<li>Crimes are more likely happen in afternoon compared with morning. For areas which are not safe enough, such as 77 Street, Southwest and Southeast, it is wise to pay a visit in the morning.</li>
+<li>Feel free to visit other areas at any time, there are no safety concerns.</li>
+</ul></li>
 <li><p>However, this does not reflect real spatial distribution</p>
 <ul>
 <li>We checked the longitude and latitude, and found that this <code>AREA_NAME</code> column can just reflect the police station.</li>
 </ul></li>
 </ul>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Note: We use sample to prevent crime cases being too dense to show in the LA map.</p>
 <p>As we can see in the graph,</p>
 <ul>
@@ -175,7 +194,7 @@ Code 102: Hand Gun</p>
 <li><p>Some other happened in the northwestern area of LA</p></li>
 </ul>
 <p>It seems intuitive that most crime cases are in the central part, which is consistent with our bar chart. To observe more information, We decided to explore details in the city center.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>Note: Here we use the full data to highlight the peak</p>
 <p>After we zoom into the central area:</p>
 <ul>

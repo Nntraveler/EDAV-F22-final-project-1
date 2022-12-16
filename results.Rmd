@@ -200,12 +200,45 @@ df_area_count = df %>%
 
 ggplot(df_area_count, aes(x=AREA_NAME, y=area_count)) + 
   geom_col(fill="royalblue") +
-  ylab("Log scale area count") +
+  ylab("Area count") +
   ggtitle("Distribution of area") +
   theme(axis.text.x = element_text(angle = 90))
 ```
 
 -   The bar char shows the number of crime cases happened in every area.
+
+```{r}
+size_pop<-read.csv("Data/clean/Size_Pop.csv", header = TRUE)
+#create a copy
+#group and count frequency
+
+df_grp_area_time_occ = df_timeoc_modified %>% group_by(TIME_OCC,AREA_NAME) %>% 
+  summarise(occ_count = n(), .groups = "drop") %>% ungroup()
+
+#divide by area size of community
+for (i in 1:nrow(df_grp_area_time_occ)){
+total_crime<-as.numeric(df_grp_area_time_occ[i,3])
+community<-as.character(df_grp_area_time_occ[i,2])
+size<-as.numeric(size_pop[which(size_pop$Community==community),2])
+df_grp_area_time_occ[i,3]<-round(total_crime/size)
+}
+
+ggplot(df_grp_area_time_occ, aes(x = TIME_OCC, y = AREA_NAME)) +
+  geom_tile(aes(fill = occ_count), color = "white") +
+  coord_fixed() +   scale_fill_gradient(
+    low = "white",
+    high = "red") + ggtitle("Crimes per square mile ~ Area & Time")
+```
+
+
+To give visitors more meaningful advice on safety, we consider the number of crimes with the size of the area by dividing the number of crimes by the area of each community, getting the number of crimes per square mile. By doing so, we can quantify the probability of encountering danger when traveling in these areas & time.
+
+-   From the heat map above, we can conclude that:
+
+    -   If people don't want to take any risks, they should stay away from Olympic area at all times. Also, be very careful when hanging around in Rampart and Central area, especially from 9AM to 11PM.   
+    -   Crimes are more likely happen in afternoon compared with morning. For areas which are not safe enough, such as 77 Street, Southwest and Southeast, it is wise to pay a visit in the morning.
+    -   Feel free to visit other areas at any time, there are no safety concerns.
+
 
 -   However, this does not reflect real spatial distribution
 
@@ -253,3 +286,4 @@ To figure out the reason for this phenomenon, we collected some interesting stat
 1.  Population density Obviously, high population density may lead to high number of crimes. The density in Hollywood is 22,193 people per square mile, among the highest densities for the city of Los Angeles. This can explain the relatively high crime density in that area. However, the downtown area only has 4,770 people per square mile, among the lowest densities for the city of Los Angeles, which means we can't simply attribute the high crime rate to high population.
 
 2.  Income In Hollywood, there is a \$33,694 median household income (2008 dollars), low for the city of Los Angeles and low for the county In downtown, there is a \$15,003 median household income (2008 dollars), low for the city of Los Angeles and low for the county Both areas are low in income, it makes sense that lower income leads to higher crime rate.
+
